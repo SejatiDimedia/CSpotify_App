@@ -1,6 +1,8 @@
 import 'package:cspotify_app/core/configs/theme/app_theme.dart';
 import 'package:cspotify_app/firebase_options.dart';
 import 'package:cspotify_app/presentation/choose_mode/bloc/theme_cubit.dart';
+import 'package:cspotify_app/presentation/choose_mode/pages/choose_mode_page.dart';
+import 'package:cspotify_app/presentation/home/pages/home_page.dart';
 import 'package:cspotify_app/presentation/splash/pages/splash_page.dart';
 import 'package:cspotify_app/service_locator.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,7 +45,8 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: mode,
           debugShowCheckedModeBanner: false,
-          home: const SplashPage(),
+          home: const HomePage(),
+          // home: const SplashPage(),
         ),
       ),
     );

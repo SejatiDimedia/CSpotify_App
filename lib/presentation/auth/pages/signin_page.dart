@@ -4,7 +4,7 @@ import 'package:cspotify_app/core/configs/assets/app_vectors.dart';
 import 'package:cspotify_app/data/models/auth/signin_user_req.dart';
 import 'package:cspotify_app/domain/usecases/auth/signin_usecase.dart';
 import 'package:cspotify_app/presentation/auth/pages/signup_page.dart';
-import 'package:cspotify_app/presentation/root/pages/root_page.dart';
+import 'package:cspotify_app/presentation/home/pages/home_page.dart';
 import 'package:cspotify_app/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -62,7 +62,7 @@ class SigninPage extends StatelessWidget {
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => const RootPage(),
+                        builder: (BuildContext context) => const HomePage(),
                       ),
                       (route) => false,
                     );
