@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "746866701574",
+    "project_id": "cspotify-app",
+    "storage_bucket": "cspotify-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746866701574:android:01bb9a711925f185319a87",
+        "android_client_info": {
+          "package_name": "com.example.cspotify_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoEihOT4KlF06DrfhHNNP6-v2icbhpf-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
