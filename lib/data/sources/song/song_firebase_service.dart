@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 
 abstract class SongFirebaseService {
   Future<Either> getNewsSongs();
+  Future<Either> getPlayList();
 }
 
 class SongFirebaseServiceImpl extends SongFirebaseService {
@@ -19,14 +20,34 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
           .limit(3)
           .get();
 
-      print("====response data:${data.docs}");
+      for (var element in data.docs) {
+        var songModel = SongModel.fromJson(element.data());
+        songs.add(songModel.toEntity());
+      }
+
+      return Right(songs);
+    } catch (e) {
+      print('error: $e');
+      return const Left('An error occurred, Please try again.');
+    }
+  }
+
+  @override
+  Future<Either> getPlayList() async {
+    try {
+      List<SongEntity> songs = [];
+
+      var data = await FirebaseFirestore.instance
+          .collection('Songs')
+          .orderBy('releaseDate', descending: true)
+          .limit(3)
+          .get();
 
       for (var element in data.docs) {
         var songModel = SongModel.fromJson(element.data());
         songs.add(songModel.toEntity());
       }
 
-      print("====response songs: $songs=======");
       return Right(songs);
     } catch (e) {
       print('error: $e');

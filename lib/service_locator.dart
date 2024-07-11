@@ -7,6 +7,7 @@ import 'package:cspotify_app/domain/repository/song/song_repository.dart';
 import 'package:cspotify_app/domain/usecases/auth/signin_usecase.dart';
 import 'package:cspotify_app/domain/usecases/auth/signup_usecase.dart';
 import 'package:cspotify_app/domain/usecases/song/get_news_songs_usecase.dart';
+import 'package:cspotify_app/domain/usecases/song/get_play_list.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -41,5 +42,9 @@ Future<void> initializeDependencies() async {
 
   sl.registerSingleton<GetNewsSongsUsecase>(
     GetNewsSongsUsecase(),
+  );
+
+  sl.registerSingleton<GetPlayListUseCase>(
+    GetPlayListUseCase(),
   );
 }
