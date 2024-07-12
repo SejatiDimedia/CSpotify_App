@@ -5,6 +5,7 @@ import 'package:cspotify_app/core/configs/assets/app_vectors.dart';
 import 'package:cspotify_app/core/configs/theme/app_colors.dart';
 import 'package:cspotify_app/presentation/home/widgets/news_songs.dart';
 import 'package:cspotify_app/presentation/home/widgets/play_list.dart';
+import 'package:cspotify_app/presentation/profile/pages/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -30,6 +31,15 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: BasicAppBar(
         hideBack: true,
+        action: IconButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => const ProfilePage()));
+          },
+          icon: const Icon(Icons.person),
+        ),
         title: SvgPicture.asset(
           AppVectors.logo,
           height: 40,
