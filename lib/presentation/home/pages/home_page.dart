@@ -5,7 +5,7 @@ import 'package:cspotify_app/core/configs/assets/app_vectors.dart';
 import 'package:cspotify_app/core/configs/theme/app_colors.dart';
 import 'package:cspotify_app/presentation/home/widgets/news_songs.dart';
 import 'package:cspotify_app/presentation/home/widgets/play_list.dart';
-import 'package:cspotify_app/presentation/profile/pages/profile.dart';
+import 'package:cspotify_app/presentation/profile/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

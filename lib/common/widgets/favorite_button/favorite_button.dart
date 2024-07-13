@@ -8,8 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteButton extends StatelessWidget {
   final SongEntity songEntity;
+  final Function? function;
   const FavoriteButton({
     required this.songEntity,
+    this.function,
     super.key,
   });
 
@@ -21,10 +23,13 @@ class FavoriteButton extends StatelessWidget {
           builder: (context, state) {
         if (state is FavoriteButtonInitial) {
           return IconButton(
-            onPressed: () {
-              context.read<FavoriteButtonCubit>().favoriteButtonUpdated(
-                    songEntity.songId,
-                  );
+            onPressed: () async {
+              await context
+                  .read<FavoriteButtonCubit>()
+                  .favoriteButtonUpdated(songEntity.songId);
+              if (function != null) {
+                function!();
+              }
             },
             icon: Icon(
               songEntity.isFavorite

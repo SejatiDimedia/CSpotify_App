@@ -78,7 +78,7 @@ class AuthFirebaseServiceImpl implements AuthFirebaseService {
       UserEntity userEntity = userModel.toEntity();
       return Right(userEntity);
     } catch (e) {
-      return const Left('An error occurred');
+      return Left('An error occurred $e');
     }
   }
 }
