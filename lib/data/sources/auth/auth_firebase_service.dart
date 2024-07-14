@@ -11,6 +11,7 @@ abstract class AuthFirebaseService {
   Future<Either> signup(CreateUserReq createUserReq);
   Future<Either> signin(SigninUserReq signinUserReq);
   Future<Either> getUser();
+  Future<Either> logout();
 }
 
 class AuthFirebaseServiceImpl implements AuthFirebaseService {
@@ -79,6 +80,16 @@ class AuthFirebaseServiceImpl implements AuthFirebaseService {
       return Right(userEntity);
     } catch (e) {
       return Left('An error occurred $e');
+    }
+  }
+
+  @override
+  Future<Either> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      return const Right('Logout is Successful');
+    } catch (e) {
+      return Left('An error occurred during logout: $e');
     }
   }
 }

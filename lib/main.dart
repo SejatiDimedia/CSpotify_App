@@ -5,6 +5,7 @@ import 'package:cspotify_app/presentation/choose_mode/pages/choose_mode_page.dar
 import 'package:cspotify_app/presentation/home/pages/home_page.dart';
 import 'package:cspotify_app/presentation/splash/pages/splash_page.dart';
 import 'package:cspotify_app/service_locator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,30 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           themeMode: mode,
           debugShowCheckedModeBanner: false,
-          home: const HomePage(),
-          // home: const SplashPage(),
+          home: const AuthWrapper(), // Use AuthWrapper to handle auth state
         ),
       ),
+    );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // Check the connection state and authentication state
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SplashPage(); // Show a loading indicator while waiting
+        } else if (snapshot.hasData) {
+          return const HomePage(); // If the user is logged in, show the HomePage
+        } else {
+          return const ChooseModePage(); // If the user is not logged in, show the ChooseModePage
+        }
+      },
     );
   }
 }

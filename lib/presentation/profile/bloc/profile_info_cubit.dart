@@ -8,7 +8,6 @@ class ProfileInfoCubit extends Cubit<ProfileInfoState> {
 
   Future<void> getUser() async {
     var user = await sl<GetUserUsecase>().call();
-    print('user====:$user');
 
     user.fold(
       (l) {

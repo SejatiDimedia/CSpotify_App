@@ -2,14 +2,15 @@ import 'package:cspotify_app/common/helpers/is_dark_mode.dart';
 import 'package:cspotify_app/common/widgets/appbar/app_bar.dart';
 import 'package:cspotify_app/common/widgets/favorite_button/favorite_button.dart';
 import 'package:cspotify_app/core/configs/constants/app_urls.dart';
+import 'package:cspotify_app/domain/usecases/auth/logout_usecase.dart';
+import 'package:cspotify_app/presentation/auth/pages/signin_page.dart';
 import 'package:cspotify_app/presentation/profile/bloc/favorite_songs_cubit.dart';
 import 'package:cspotify_app/presentation/profile/bloc/favorite_songs_state.dart';
 import 'package:cspotify_app/presentation/profile/bloc/profile_info_cubit.dart';
 import 'package:cspotify_app/presentation/profile/bloc/profile_info_state.dart';
 import 'package:cspotify_app/presentation/song_player/pages/song_player_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cspotify_app/service_locator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -18,12 +19,21 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BasicAppBar(
-        backgroundColor: Color(0xff2c2b2b),
-        title: Text(
-          "Profile",
-        ),
-      ),
+      appBar: BasicAppBar(
+          backgroundColor: context.isDarkMode
+              ? const Color(0xff2c2b2b)
+              : const Color(0xffFFFFFF),
+          title: const Text(
+            "Profile",
+          ),
+          action: IconButton(
+            onPressed: () {
+              _showLogoutDialog(context);
+            },
+            icon: const Icon(
+              Icons.logout,
+            ),
+          )),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,6 +44,45 @@ class ProfilePage extends StatelessWidget {
           _favoriteSongs(),
         ],
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Logout"),
+          content: const Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text("Logout"),
+              onPressed: () async {
+                var result = await sl<LogoutUsecase>().call();
+
+                result.fold((l) {
+                  var snackbar = SnackBar(content: Text(l));
+                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                }, (r) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => SigninPage(),
+                    ),
+                    (route) => false,
+                  );
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -115,6 +164,10 @@ class ProfilePage extends StatelessWidget {
           children: [
             const Text(
               'Favorite Songs',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -126,6 +179,10 @@ class ProfilePage extends StatelessWidget {
               }
 
               if (state is FavoriteSongsLoaded) {
+                if (state.favoriteSongs.isEmpty) {
+                  return const Text("Favorite songs don't exist");
+                }
+
                 return ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
